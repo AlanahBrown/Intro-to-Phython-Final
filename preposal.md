@@ -2,12 +2,14 @@
 
 ## What idea(s) do you have for your final project?
 
-TODO
+A minecraft mod
+Budget tracker - to help improve spending 
 
 ## If you plan to collaborate with one or two classmates, what are their names?
 
-TODO
+No one as of right now 
 
 ## Do you have any questions of your own?
 
-TODO
+How are we going to be judged on dificulty ?
+Can I meet with you for help ?

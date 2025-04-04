@@ -3,7 +3,9 @@
 ## What idea(s) do you have for your final project?
 
 A minecraft mod
+
 Budget tracker - to help improve spending 
+with a some type of visual diagram
 
 ## If you plan to collaborate with one or two classmates, what are their names?
 

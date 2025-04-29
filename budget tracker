@@ -1,3 +1,8 @@
+# File type: Python (.py)
+# Program: Couples Budget Planner
+# Author: Alanah Brown
+# Course: CIS 1051
+
 import csv
 import matplotlib.pyplot as plt
 

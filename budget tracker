@@ -1,63 +1,92 @@
 import csv
+import matplotlib.pyplot as plt
 
-categories = ["Rent", "Food", "Transportation", "Savings", "Entertainment", "Other"]
+def calculate_budget(total_income, goal):
+    if goal == "1":   
+        needs = 0.4 * total_income
+        wants = 0.2 * total_income
+        savings = 0.4 * total_income
+    elif goal == "2":  
+        needs = 0.5 * total_income
+        wants = 0.3 * total_income
+        savings = 0.2 * total_income
+    elif goal == "3":  
+        needs = 0.6 * total_income
+        wants = 0.35 * total_income
+        savings = 0.05 * total_income
+    else:
+        return None
+    return needs, wants, savings
 
-def create_budget():
-    filename = input("Enter a name for your budget (e.g., april_budget): ").strip() + ".csv"
-    income = float(input("Enter your monthly income: $"))
-    expenses = {}
-
-    print("\nEnter how much you want to spend in each category:")
-    for category in categories:
-        amount = float(input(f"{category}: $"))
-        expenses[category] = amount
-
-    total_expenses = sum(expenses.values())
-    leftover = income - total_expenses
-    expenses["Leftover"] = leftover
-
-    with open(filename, "w", newline="") as file:
+def save_budget_to_csv(needs, wants, savings):
+    with open('budget_summary.csv', 'w', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow(["Category", "Amount"])
-        for category, amount in expenses.items():
-            writer.writerow([category, amount])
+        writer.writerow(['Category', 'Amount'])
+        writer.writerow(['Needs', round(needs, 2)])
+        writer.writerow(['Wants', round(wants, 2)])
+        writer.writerow(['Savings', round(savings, 2)])
 
-    print(f"\nBudget saved to '{filename}'")
-    print("Here is your budget summary:")
-    for category, amount in expenses.items():
-        print(f"{category}: ${amount:.2f}")
-
-def load_budget():
-    filename = input("Enter the name of the budget file to load : ").strip() + ".csv"
-
-    try:
-        with open(filename, "r") as file:
-            print(f"\nLoading '{filename}'...")
-            reader = csv.reader(file)
-            next(reader)
-            for row in reader:
-                print(f"{row[0]}: ${float(row[1]):.2f}")
-    except FileNotFoundError:
-        print("Budget file not found.")
+def create_budget_pie_chart(needs, wants, savings):
+    labels = ['Essentials (Needs)', 'Flexible Spending (Wants)', 'Savings/Investments']
+    sizes = [needs, wants, savings]
+    colors = ['c', 'm', 'r']  
+    
+    plt.pie(sizes,
+            labels=labels,
+            colors=colors,
+            startangle=140,
+            shadow= True,
+            autopct='%1.1f%%')
+    
+    plt.title('Your Budget Breakdown')
+    plt.show()
 
 def main():
-    while True:
-        print("\n=== Budgeting Tool ===")
-        print("1. Create a new budget")
-        print("2. Load an existing budget")
-        print("3. Exit")
+    print("Welcome to the Couples Budget Planner!")
 
-        choice = input("Choose an option (1-3): ").strip()
+    your_salary = float(input("Enter your monthly salary: "))
+    print("Your monthly salary is: $" + str(round(your_salary, 2)))
 
-        if choice == "1":
-            create_budget()
-        elif choice == "2":
-            load_budget()
-        elif choice == "3":
-            print("Goodbye!")
-            break
-        else:
-            print("Invalid choice. Please enter 1, 2, or 3.")
+    partner_salary = float(input("Enter your partner's monthly salary: "))
+    print("Your partner's monthly salary is: $" + str(round(partner_salary, 2)))
+
+    additional_income = float(input("Any additional monthly income? (Enter 0 if none): "))
+    print("Your additional monthly income is: $" + str(round(additional_income, 2)))
+ 
+    base_income = your_salary + partner_salary
+    print("\nYour combined base salary (without extras) is: $" + str(round(base_income, 2)))
+
+    total_income = base_income + additional_income
+    print("\nAdding in additional income \nYour combined total monthly income is: $" + str(round(total_income, 2)) + "\n")
+
+    print("Choose your goal:")
+    print("1) Save More")
+    print("2) Balanced")
+    print("3) Spend Freely")
+    
+    goal = input("Enter 1, 2, or 3: ")
+
+    while goal not in ["1","2","3"]:
+        print ("Invalid choice. Please enter 1, 2, or 3.")
+        goal = input("Enter 1, 2, or 3: ")
+
+    budget = calculate_budget(total_income, goal)
+
+    if budget:
+        needs, wants, savings = budget
+        print("\nRecommended Monthly Budget!")
+        print("Essentials (Needs): $" + str(round(needs, 2)))
+        print("Flexible Spending (Wants): $" + str(round(wants, 2)))
+        print("Savings/Investments: $" + str(round(savings, 2)))
+
+        save_budget_to_csv(needs, wants, savings)
+
+        create_budget_pie_chart(needs, wants, savings)
+
+    else:
+        print("Invalid goal choice. Please restart and select a valid option.")
 
 if __name__ == "__main__":
     main()
+  
+         

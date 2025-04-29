@@ -42,7 +42,7 @@ def create_budget_pie_chart(needs, wants, savings):
     plt.show()
 
 def main():
-    print("Welcome to the Couples Budget Planner!")
+    print("Welcome to the Couples Budget Planner!, Alanah Brown CIS 1051")
 
     your_salary = float(input("Enter your monthly salary: "))
     print("Your monthly salary is: $" + str(round(your_salary, 2)))
